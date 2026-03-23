@@ -519,49 +519,49 @@ disp(array2table(FAA_delta_rPSD, 'VariableNames', colLabels4));
 
 
 %% Plot FAA: 4 columns (Pre EO, Post EO, Pre EC, Post EC), G1 & G2 overlayed
-% Run compute_FAA_groups.m first to generate FAA_matrix, nRows, nCols
-
-if ~exist('FAA_matrix', 'var')
-    error('FAA_matrix not found. Run compute_FAA_groups.m first.');
-end
-if nRows == 0
-    warning('No data to plot.');
-    return;
-end
-
-% FAA_matrix: cols 1-4 G1, cols 5-8 G2
-% G1: pre_eo(1), pre_ec(2), post_eo(3), post_ec(4)
-% G2: pre_eo(5), pre_ec(6), post_eo(7), post_ec(8)
-% Plot order: Pre EO, Post EO, Pre EC, Post EC
-colOrder   = [1, 3, 2, 4];   % G1 indices
-colOrderG2 = [5, 7, 6, 8];   % G2 indices
-
-condLabels = {'Pre EO', 'Post EO', 'Pre EC', 'Post EC'};
-x = 1:4;
-w = 0.35;  % bar half-width for grouping
-
-% Compute mean and SE (ignoring NaN)
-fun_mean = @(v) mean(v, 'omitnan');
-fun_se   = @(v) std(v, 'omitnan') / sqrt(sum(~isnan(v)));
-
-mG1 = arrayfun(@(c) fun_mean(FAA_matrix(:, colOrder(c))), 1:4);
-mG2 = arrayfun(@(c) fun_mean(FAA_matrix(:, colOrderG2(c))), 1:4);
-eG1 = arrayfun(@(c) fun_se(FAA_matrix(:, colOrder(c))), 1:4);
-eG2 = arrayfun(@(c) fun_se(FAA_matrix(:, colOrderG2(c))), 1:4);
-
-eG1(isnan(eG1)) = 0;
-eG2(isnan(eG2)) = 0;
-
-figure('Color', 'w');
-hold on;
-b1 = bar(x - w/2, mG1, w, 'FaceColor', [0.2 0.4 0.8], 'EdgeColor', 'none');
-b2 = bar(x + w/2, mG2, w, 'FaceColor', [0.8 0.4 0.2], 'EdgeColor', 'none');
-errorbar(x - w/2, mG1, eG1, 'k', 'LineStyle', 'none', 'LineWidth', 1.5, 'CapSize', 5);
-errorbar(x + w/2, mG2, eG2, 'k', 'LineStyle', 'none', 'LineWidth', 1.5, 'CapSize', 5);
-hold off;
-
-set(gca, 'XTick', x, 'XTickLabel', condLabels);
-ylabel('FAA (ln right - ln left)');
-legend([b1, b2], {'Group 1', 'Group 2'}, 'Location', 'best');
-title('Frontal Alpha Asymmetry');
-grid on;
+% % Run compute_FAA_groups.m first to generate FAA_matrix, nRows, nCols
+% 
+% if ~exist('FAA_matrix', 'var')
+%     error('FAA_matrix not found. Run compute_FAA_groups.m first.');
+% end
+% if nRows == 0
+%     warning('No data to plot.');
+%     return;
+% end
+% 
+% % FAA_matrix: cols 1-4 G1, cols 5-8 G2
+% % G1: pre_eo(1), pre_ec(2), post_eo(3), post_ec(4)
+% % G2: pre_eo(5), pre_ec(6), post_eo(7), post_ec(8)
+% % Plot order: Pre EO, Post EO, Pre EC, Post EC
+% colOrder   = [1, 3, 2, 4];   % G1 indices
+% colOrderG2 = [5, 7, 6, 8];   % G2 indices
+% 
+% condLabels = {'Pre EO', 'Post EO', 'Pre EC', 'Post EC'};
+% x = 1:4;
+% w = 0.35;  % bar half-width for grouping
+% 
+% % Compute mean and SE (ignoring NaN)
+% fun_mean = @(v) mean(v, 'omitnan');
+% fun_se   = @(v) std(v, 'omitnan') / sqrt(sum(~isnan(v)));
+% 
+% mG1 = arrayfun(@(c) fun_mean(FAA_matrix(:, colOrder(c))), 1:4);
+% mG2 = arrayfun(@(c) fun_mean(FAA_matrix(:, colOrderG2(c))), 1:4);
+% eG1 = arrayfun(@(c) fun_se(FAA_matrix(:, colOrder(c))), 1:4);
+% eG2 = arrayfun(@(c) fun_se(FAA_matrix(:, colOrderG2(c))), 1:4);
+% 
+% eG1(isnan(eG1)) = 0;
+% eG2(isnan(eG2)) = 0;
+% 
+% figure('Color', 'w');
+% hold on;
+% b1 = bar(x - w/2, mG1, w, 'FaceColor', [0.2 0.4 0.8], 'EdgeColor', 'none');
+% b2 = bar(x + w/2, mG2, w, 'FaceColor', [0.8 0.4 0.2], 'EdgeColor', 'none');
+% errorbar(x - w/2, mG1, eG1, 'k', 'LineStyle', 'none', 'LineWidth', 1.5, 'CapSize', 5);
+% errorbar(x + w/2, mG2, eG2, 'k', 'LineStyle', 'none', 'LineWidth', 1.5, 'CapSize', 5);
+% hold off;
+% 
+% set(gca, 'XTick', x, 'XTickLabel', condLabels);
+% ylabel('FAA (ln right - ln left)');
+% legend([b1, b2], {'Group 1', 'Group 2'}, 'Location', 'best');
+% title('Frontal Alpha Asymmetry');
+% grid on;
